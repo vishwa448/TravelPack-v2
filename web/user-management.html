@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>User Management | Travel Pack</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-blue-600 text-white shadow p-4">
+    <h1 class="text-2xl font-bold">Travel Pack Admin Dashboard</h1>
+  </header>
+
+  <!-- Content Wrapper -->
+  <div class="flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white h-screen shadow hidden md:block">
+      <nav class="p-4 space-y-4">
+        <a href="#" class="block text-blue-600 font-semibold">🏠 Dashboard</a>
+        <a href="#" class="block hover:text-blue-500">📦 Manage Packages</a>
+        <a href="#" class="block hover:text-blue-500">👤 User Management</a>
+        <a href="#" class="block hover:text-blue-500">📊 Reports</a>
+        <a href="#" class="block hover:text-blue-500">🚪 Logout</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-6 space-y-10">
+
+      <!-- Section: Add New User -->
+      <section class="bg-white p-6 rounded-xl shadow">
+        <h2 class="text-xl font-bold mb-4 text-blue-600">Register New User</h2>
+        <form class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-medium">Full Name</label>
+            <input type="text" placeholder="John Doe" class="w-full mt-1 border p-2 rounded" />
+          </div>
+          <div>
+            <label class="block font-medium">Email Address</label>
+            <input type="email" placeholder="john@example.com" class="w-full mt-1 border p-2 rounded" />
+          </div>
+          <div>
+            <label class="block font-medium">Phone</label>
+            <input type="text" placeholder="+94 77 123 4567" class="w-full mt-1 border p-2 rounded" />
+          </div>
+          <div>
+            <label class="block font-medium">Job Role</label>
+            <select class="w-full mt-1 border p-2 rounded">
+              <option>Admin</option>
+              <option>Travel Agent</option>
+              <option>Manager</option>
+              <option>Customer Support</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-medium">Password</label>
+            <input type="password" placeholder="******" class="w-full mt-1 border p-2 rounded" />
+          </div>
+          <div class="flex items-end">
+            <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+              Register User
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Section: User List Table -->
+      <section class="bg-white p-6 rounded-xl shadow">
+        <h2 class="text-xl font-bold mb-4 text-blue-600">Registered Users</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full table-auto text-left border">
+            <thead>
+              <tr class="bg-blue-100 text-blue-700">
+                <th class="p-2 border">#</th>
+                <th class="p-2 border">Name</th>
+                <th class="p-2 border">Email</th>
+                <th class="p-2 border">Phone</th>
+                <th class="p-2 border">Role</th>
+                <th class="p-2 border">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="hover:bg-gray-100">
+                <td class="p-2 border">1</td>
+                <td class="p-2 border">John Doe</td>
+                <td class="p-2 border">john@example.com</td>
+                <td class="p-2 border">+94 77 123 4567</td>
+                <td class="p-2 border">Admin</td>
+                <td class="p-2 border space-x-2">
+                  <button class="text-blue-600 hover:underline">Edit</button>
+                  <button class="text-red-500 hover:underline">Delete</button>
+                </td>
+              </tr>
+              <!-- Add more rows dynamically from backend -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+</body>
+</html>
