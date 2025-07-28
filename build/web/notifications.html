@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications | TravelPack</title>
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #3498db;
+      --secondary: #2ecc71;
+      --dark: #2c3e50;
+      --light: #ecf0f1;
+      --danger: #e74c3c;
+      --warning: #f39c12;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    body {
+      background-color: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    /* Header Styles */
+    header {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo img {
+      height: 50px;
+      margin-right: 10px;
+    }
+    
+    .logo h1 {
+      font-size: 1.5rem;
+      color: var(--dark);
+    }
+    
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+    
+    .nav-links li {
+      margin-left: 2rem;
+    }
+    
+    .nav-links a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+    
+    .account-dropdown {
+      position: relative;
+    }
+    
+    .account-btn {
+      display: flex;
+      align-items: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--primary);
+      font-weight: 500;
+    }
+    
+    .account-btn i {
+      margin-left: 5px;
+    }
+    
+    .dropdown-menu {
+      position: absolute;
+      right: 0;
+      top: 100%;
+      background: white;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border-radius: 5px;
+      width: 200px;
+      padding: 1rem 0;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+    }
+    
+    .account-dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .dropdown-menu a {
+      display: block;
+      padding: 0.5rem 1.5rem;
+      color: var(--dark);
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    
+    .dropdown-menu a:hover {
+      background-color: var(--light);
+      color: var(--primary);
+    }
+    
+    /* Main Content */
+    .main {
+      max-width: 1400px;
+      margin: 100px auto 0;
+      padding: 0 5%;
+      display: flex;
+      gap: 2rem;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      height: fit-content;
+    }
+    
+    .profile-card {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .profile-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 1rem;
+      border: 3px solid var(--primary);
+    }
+    
+    .profile-card h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .profile-card p {
+      color: #777;
+      font-size: 0.9rem;
+    }
+    
+    .account-menu {
+      list-style: none;
+    }
+    
+    .account-menu li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .account-menu a {
+      display: flex;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      color: var(--dark);
+      text-decoration: none;
+      border-radius: 5px;
+      transition: all 0.3s;
+    }
+    
+    .account-menu a:hover, .account-menu a.active {
+      background-color: var(--light);
+      color: var(--primary);
+    }
+    
+    .account-menu i {
+      margin-right: 0.8rem;
+      font-size: 1.1rem;
+    }
+    
+    /* Notifications Content */
+    .notifications-content {
+      flex: 1;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      padding: 2rem;
+    }
+    
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .section-header h2 {
+      font-size: 1.5rem;
+      color: var(--dark);
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      background-color: var(--primary);
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .btn:hover {
+      background-color: #2980b9;
+      transform: translateY(-3px);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      margin-left: 1rem;
+    }
+    
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+    
+    /* Notification Items */
+    .notification-list {
+      list-style: none;
+    }
+    
+    .notification-item {
+      padding: 1.5rem;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      align-items: flex-start;
+      transition: all 0.3s;
+    }
+    
+    .notification-item:hover {
+      background-color: #f9f9f9;
+    }
+    
+    .notification-item.unread {
+      background-color: #f0f8ff;
+    }
+    
+    .notification-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+      flex-shrink: 0;
+    }
+    
+    .notification-icon.primary {
+      background-color: #e3f2fd;
+      color: var(--primary);
+    }
+    
+    .notification-icon.success {
+      background-color: #e8f5e9;
+      color: var(--secondary);
+    }
+    
+    .notification-icon.warning {
+      background-color: #fff8e1;
+      color: var(--warning);
+    }
+    
+    .notification-icon.danger {
+      background-color: #ffebee;
+      color: var(--danger);
+    }
+    
+    .notification-details {
+      flex: 1;
+    }
+    
+    .notification-title {
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .notification-time {
+      color: #777;
+      font-size: 0.8rem;
+    }
+    
+    .notification-message {
+      color: #555;
+      margin-bottom: 0.5rem;
+    }
+    
+    .notification-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .action-btn {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-size: 0.8rem;
+      cursor: pointer;
+      padding: 0.3rem 0.5rem;
+      border-radius: 3px;
+    }
+    
+    .action-btn:hover {
+      background-color: #e3f2fd;
+    }
+    
+    .mark-all-read {
+      text-align: right;
+      margin-top: 1rem;
+    }
+    
+    .empty-notifications {
+      text-align: center;
+      padding: 3rem 0;
+    }
+    
+    .empty-notifications i {
+      font-size: 3rem;
+      color: #ddd;
+      margin-bottom: 1rem;
+    }
+    
+    .empty-notifications h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    /* Notification Filters */
+    .notification-filters {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .filter-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      background: none;
+      border: 1px solid #ddd;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .filter-btn.active, .filter-btn:hover {
+      background-color: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .main {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        padding: 1rem;
+      }
+      
+      .nav-links {
+        margin-top: 1rem;
+      }
+      
+      .nav-links li {
+        margin-left: 1rem;
+      }
+      
+      .notification-filters {
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="https://via.placeholder.com/50" alt="TravelPack Logo">
+        <h1>TravelPack</h1>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="destinations.html">Destinations</a></li>
+        <li><a href="tours.html">Tours</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="account-dropdown">
+          <button class="account-btn">
+            My Account <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="dropdown-menu">
+            <a href="profile.html"><i class="bi bi-person"></i> Profile</a>
+            <a href="bookings.html"><i class="bi bi-journal-text"></i> Bookings</a>
+            <a href="wishlist.html"><i class="bi bi-heart"></i> Wishlist</a>
+            <a href="notifications.html" class="active"><i class="bi bi-bell"></i> Notifications</a>
+            <a href="settings.html"><i class="bi bi-gear"></i> Settings</a>
+            <a href="#"><i class="bi bi-box-arrow-right"></i> Logout</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="profile-card">
+        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="profile-avatar">
+        <h2>Sarah Johnson</h2>
+        <p>Member since June 2022</p>
+      </div>
+      
+      <ul class="account-menu">
+        <li><a href="profile.html"><i class="bi bi-person"></i> Profile</a></li>
+        <li><a href="bookings.html"><i class="bi bi-journal-text"></i> Bookings</a></li>
+        <li><a href="wishlist.html"><i class="bi bi-heart"></i> Wishlist</a></li>
+        <li><a href="notifications.html" class="active"><i class="bi bi-bell"></i> Notifications</a></li>
+        <li><a href="settings.html"><i class="bi bi-gear"></i> Settings</a></li>
+        <li><a href="#"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+      </ul>
+    </aside>
+    
+    <!-- Notifications Content -->
+    <div class="notifications-content">
+      <div class="section-header">
+        <h2>Notifications</h2>
+        <div>
+          <button class="btn-outline" onclick="markAllAsRead()">Mark All as Read</button>
+        </div>
+      </div>
+      
+      <div class="notification-filters">
+        <button class="filter-btn active" onclick="filterNotifications('all')">All</button>
+        <button class="filter-btn" onclick="filterNotifications('unread')">Unread</button>
+        <button class="filter-btn" onclick="filterNotifications('bookings')">Bookings</button>
+        <button class="filter-btn" onclick="filterNotifications('promotions')">Promotions</button>
+        <button class="filter-btn" onclick="filterNotifications('alerts')">Alerts</button>
+      </div>
+      
+      <ul class="notification-list">
+        <!-- Notification 1 -->
+        <li class="notification-item unread" data-type="bookings">
+          <div class="notification-icon primary">
+            <i class="bi bi-airplane"></i>
+          </div>
+          <div class="notification-details">
+            <div class="notification-title">
+              <span>Your Paris trip is confirmed!</span>
+              <span class="notification-time">2 hours ago</span>
+            </div>
+            <p class="notification-message">Your booking for Paris Romantic Getaway on June 15-22 has been confirmed. View your itinerary.</p>
+            <div class="notification-actions">
+              <button class="action-btn" onclick="viewBooking(this)">View Booking</button>
+              <button class="action-btn" onclick="markAsRead(this)">Mark as Read</button>
+            </div>
+          </div>
+        </li>
+        
+        <!-- Notification 2 -->
+        <li class="notification-item" data-type="promotions">
+          <div class="notification-icon success">
+            <i class="bi bi-percent"></i>
+          </div>
+          <div class="notification-details">
+            <div class="notification-title">
+              <span>Special offer for Bali lovers</span>
+              <span class="notification-time">1 day ago</span>
+            </div>
+            <p class="notification-message">Get 15% off on Bali Tropical Retreat when you book before May 30. Use code BALI15 at checkout.</p>
+            <div class="notification-actions">
+              <button class="action-btn" onclick="viewDeal(this)">View Deal</button>
+              <button class="action-btn" onclick="markAsRead(this)">Mark as Read</button>
+            </div>
+          </div>
+        </li>
+        
+        <!-- Notification 3 -->
+        <li class="notification-item unread" data-type="alerts">
+          <div class="notification-icon warning">
+            <i class="bi bi-exclamation-triangle"></i>
+          </div>
+          <div class="notification-details">
+            <div class="notification-title">
+              <span>Flight schedule change</span>
+              <span class="notification-time">1 day ago</span>
+            </div>
+            <p class="notification-message">Your flight to New York (JFK) on June 10 has been rescheduled to depart 1 hour earlier.</p>
+            <div class="notification-actions">
+              <button class="action-btn" onclick="viewDetails(this)">View Details</button>
+              <button class="action-btn" onclick="markAsRead(this)">Mark as Read</button>
+            </div>
+          </div>
+        </li>
+        
+        <!-- Notification 4 -->
+        <li class="notification-item" data-type="bookings">
+          <div class="notification-icon primary">
+            <i class="bi bi-check-circle"></i>
+          </div>
+          <div class="notification-details">
+            <div class="notification-title">
+              <span>Payment received</span>
+              <span class="notification-time">3 days ago</span>
+            </div>
+            <p class="notification-message">We've received your payment of $1,299 for Paris Romantic Getaway. Thank you!</p>
+            <div class="notification-actions">
+              <button class="action-btn" onclick="viewReceipt(this)">View Receipt</button>
+              <button class="action-btn" onclick="markAsRead(this)">Mark as Read</button>
+            </div>
+          </div>
+        </li>
+        
+        <!-- Notification 5 -->
+        <li class="notification-item" data-type="promotions">
+          <div class="notification-icon success">
+            <i class="bi bi-star"></i>
+          </div>
+          <div class="notification-details">
+            <div class="notification-title">
+              <span>Exclusive member offer</span>
+              <span class="notification-time">1 week ago</span>
+            </div>
+            <p class="notification-message">As a valued member, enjoy 10% off all European destinations this summer. Book by May 31.</p>
+            <div class="notification-actions">
+              <button class="action-btn" onclick="viewOffer(this)">View Offer</button>
+              <button class="action-btn" onclick="markAsRead(this)">Mark as Read</button>
+            </div>
+          </div>
+        </li>
+      </ul>
+      
+      <!-- Empty State (hidden by default) -->
+      <div class="empty-notifications" style="display: none;">
+        <i class="bi bi-bell-slash"></i>
+        <h3>No Notifications Yet</h3>
+        <p>Your notifications will appear here when you have updates</p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Mark notification as read
+    function markAsRead(button) {
+      const notification = button.closest('.notification-item');
+      notification.classList.remove('unread');
+      updateUnreadCount();
+    }
+    
+    // Mark all notifications as read
+    function markAllAsRead() {
+      document.querySelectorAll('.notification-item.unread').forEach(item => {
+        item.classList.remove('unread');
+      });
+      updateUnreadCount();
+      alert('All notifications marked as read');
+    }
+    
+    // Filter notifications by type
+    function filterNotifications(type) {
+      // Update active filter button
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      
+      // Show/hide notifications
+      const allNotifications = document.querySelectorAll('.notification-item');
+      let visibleCount = 0;
+      
+      allNotifications.forEach(item => {
+        if (type === 'all' || 
+            (type === 'unread' && item.classList.contains('unread')) || 
+            item.dataset.type === type) {
+          item.style.display = 'flex';
+          visibleCount++;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+      
+      // Show empty state if no notifications match filter
+      const emptyState = document.querySelector('.empty-notifications');
+      if (visibleCount === 0) {
+        emptyState.style.display = 'block';
+      } else {
+        emptyState.style.display = 'none';
+      }
+    }
+    
+    // Update unread count in header
+    function updateUnreadCount() {
+      const unreadCount = document.querySelectorAll('.notification-item.unread').length;
+      // In a real app, you would update the badge in the header
+      console.log(`Unread notifications: ${unreadCount}`);
+    }
+    
+    // Notification action handlers
+    function viewBooking() {
+      alert('Opening booking details...');
+      // window.location.href = 'booking-details.html';
+    }
+    
+    function viewDeal() {
+      alert('Showing special deal...');
+    }
+    
+    function viewDetails() {
+      alert('Showing flight details...');
+    }
+    
+    function viewReceipt() {
+      alert('Opening payment receipt...');
+    }
+    
+    function viewOffer() {
+      alert('Showing special offer...');
+    }
+    
+    // Initialize
+    updateUnreadCount();
+  </script>
+</body>
+</html>

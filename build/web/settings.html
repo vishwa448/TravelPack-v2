@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Settings | TravelPack</title>
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #3498db;
+      --secondary: #2ecc71;
+      --dark: #2c3e50;
+      --light: #ecf0f1;
+      --danger: #e74c3c;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    body {
+      background-color: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    /* Header Styles */
+    header {
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo img {
+      height: 50px;
+      margin-right: 10px;
+    }
+    
+    .logo h1 {
+      font-size: 1.5rem;
+      color: var(--dark);
+    }
+    
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+    
+    .nav-links li {
+      margin-left: 2rem;
+    }
+    
+    .nav-links a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+    
+    .account-dropdown {
+      position: relative;
+    }
+    
+    .account-btn {
+      display: flex;
+      align-items: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--primary);
+      font-weight: 500;
+    }
+    
+    .account-btn i {
+      margin-left: 5px;
+    }
+    
+    .dropdown-menu {
+      position: absolute;
+      right: 0;
+      top: 100%;
+      background: white;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border-radius: 5px;
+      width: 200px;
+      padding: 1rem 0;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s;
+    }
+    
+    .account-dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .dropdown-menu a {
+      display: block;
+      padding: 0.5rem 1.5rem;
+      color: var(--dark);
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    
+    .dropdown-menu a:hover {
+      background-color: var(--light);
+      color: var(--primary);
+    }
+    
+    /* Main Content */
+    .main {
+      max-width: 1400px;
+      margin: 100px auto 0;
+      padding: 0 5%;
+      display: flex;
+      gap: 2rem;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      width: 250px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      height: fit-content;
+    }
+    
+    .profile-card {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .profile-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 1rem;
+      border: 3px solid var(--primary);
+    }
+    
+    .profile-card h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .profile-card p {
+      color: #777;
+      font-size: 0.9rem;
+    }
+    
+    .account-menu {
+      list-style: none;
+    }
+    
+    .account-menu li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .account-menu a {
+      display: flex;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      color: var(--dark);
+      text-decoration: none;
+      border-radius: 5px;
+      transition: all 0.3s;
+    }
+    
+    .account-menu a:hover, .account-menu a.active {
+      background-color: var(--light);
+      color: var(--primary);
+    }
+    
+    .account-menu i {
+      margin-right: 0.8rem;
+      font-size: 1.1rem;
+    }
+    
+    /* Settings Content */
+    .settings-content {
+      flex: 1;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      padding: 2rem;
+    }
+    
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .section-header h2 {
+      font-size: 1.5rem;
+      color: var(--dark);
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      background-color: var(--primary);
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s;
+      border: none;
+      cursor: pointer;
+    }
+    
+    .btn:hover {
+      background-color: #2980b9;
+      transform: translateY(-3px);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      margin-left: 1rem;
+    }
+    
+    .btn-outline:hover {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .btn-danger {
+      background-color: var(--danger);
+    }
+    
+    .btn-danger:hover {
+      background-color: #c0392b;
+    }
+    
+    /* Settings Tabs */
+    .settings-tabs {
+      display: flex;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 2rem;
+    }
+    
+    .tab-btn {
+      padding: 0.8rem 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      color: #777;
+      position: relative;
+    }
+    
+    .tab-btn.active {
+      color: var(--primary);
+    }
+    
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--primary);
+    }
+    
+    /* Settings Sections */
+    .settings-section {
+      display: none;
+    }
+    
+    .settings-section.active {
+      display: block;
+    }
+    
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    
+    .form-row {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-row .form-group {
+      flex: 1;
+    }
+    
+    /* Security Settings */
+    .security-devices {
+      margin-top: 2rem;
+    }
+    
+    .device-card {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      border: 1px solid #eee;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+    }
+    
+    .device-icon {
+      width: 40px;
+      height: 40px;
+      background-color: #e3f2fd;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 1rem;
+      color: var(--primary);
+    }
+    
+    .device-info {
+      flex: 1;
+    }
+    
+    .device-info h4 {
+      margin-bottom: 0.3rem;
+    }
+    
+    .device-info p {
+      color: #777;
+      font-size: 0.9rem;
+    }
+    
+    .device-actions {
+      margin-left: 1rem;
+    }
+    
+    /* Notification Preferences */
+    .notification-prefs {
+      margin-top: 1rem;
+    }
+    
+    .pref-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .pref-info h4 {
+      margin-bottom: 0.3rem;
+    }
+    
+    .pref-info p {
+      color: #777;
+      font-size: 0.9rem;
+    }
+    
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+    
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+      background-color: var(--primary);
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+    
+    /* Danger Zone */
+    .danger-zone {
+      margin-top: 3rem;
+      padding: 1.5rem;
+      border: 1px solid #ffebee;
+      background-color: #fff5f5;
+      border-radius: 5px;
+    }
+    
+    .danger-zone h3 {
+      color: var(--danger);
+      margin-bottom: 1rem;
+    }
+    
+    .danger-zone p {
+      color: #777;
+      margin-bottom: 1rem;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .main {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        padding: 1rem;
+      }
+      
+      .nav-links {
+        margin-top: 1rem;
+      }
+      
+      .nav-links li {
+        margin-left: 1rem;
+      }
+      
+      .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+      
+      .settings-tabs {
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <img src="https://via.placeholder.com/50" alt="TravelPack Logo">
+        <h1>TravelPack</h1>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="destinations.html">Destinations</a></li>
+        <li><a href="tours.html">Tours</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li class="account-dropdown">
+          <button class="account-btn">
+            My Account <i class="bi bi-chevron-down"></i>
+          </button>
+          <div class="dropdown-menu">
+            <a href="profile.html"><i class="bi bi-person"></i> Profile</a>
+            <a href="bookings.html"><i class="bi bi-journal-text"></i> Bookings</a>
+            <a href="wishlist.html"><i class="bi bi-heart"></i> Wishlist</a>
+            <a href="notifications.html"><i class="bi bi-bell"></i> Notifications</a>
+            <a href="settings.html" class="active"><i class="bi bi-gear"></i> Settings</a>
+            <a href="#"><i class="bi bi-box-arrow-right"></i> Logout</a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="profile-card">
+        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="profile-avatar">
+        <h2>Sarah Johnson</h2>
+        <p>Member since June 2022</p>
+      </div>
+      
+      <ul class="account-menu">
+        <li><a href="profile.html"><i class="bi bi-person"></i> Profile</a></li>
+        <li><a href="bookings.html"><i class="bi bi-journal-text"></i> Bookings</a></li>
+        <li><a href="wishlist.html"><i class="bi bi-heart"></i> Wishlist</a></li>
+        <li><a href="notifications.html"><i class="bi bi-bell"></i> Notifications</a></li>
+        <li><a href="settings.html" class="active"><i class="bi bi-gear"></i> Settings</a></li>
+        <li><a href="#"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+      </ul>
+    </aside>
+    
+    <!-- Settings Content -->
+    <div class="settings-content">
+      <div class="section-header">
+        <h2>Account Settings</h2>
+      </div>
+      
+      <div class="settings-tabs">
+        <button class="tab-btn active" onclick="showSettingsSection('account')">Account</button>
+        <button class="tab-btn" onclick="showSettingsSection('security')">Security</button>
+        <button class="tab-btn" onclick="showSettingsSection('notifications')">Notifications</button>
+        <button class="tab-btn" onclick="showSettingsSection('privacy')">Privacy</button>
+        <button class="tab-btn" onclick="showSettingsSection('payment')">Payment</button>
+      </div>
+      
+      <!-- Account Settings -->
+      <div class="settings-section active" id="accountSettings">
+        <form>
+          <div class="form-group">
+            <label for="profilePhoto">Profile Photo</label>
+            <div style="display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem;">
+              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Current Photo" width="80" height="80" style="border-radius: 50%; object-fit: cover;">
+              <div>
+                <button type="button" class="btn-outline" style="margin-bottom: 0.5rem;">Change Photo</button>
+                <button type="button" class="btn-outline" style="color: var(--danger); border-color: var(--danger);">Remove</button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="firstName">First Name</label>
+              <input type="text" id="firstName" class="form-control" value="Sarah">
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <input type="text" id="lastName" class="form-control" value="Johnson">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" class="form-control" value="sarah.johnson@example.com">
+          </div>
+          
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" class="form-control" value="(555) 123-4567">
+          </div>
+          
+          <div class="form-group">
+            <label for="birthdate">Date of Birth</label>
+            <input type="date" id="birthdate" class="form-control" value="1990-05-15">
+          </div>
+          
+          <div style="margin-top: 2rem;">
+            <button type="submit" class="btn">Save Changes</button>
+            <button type="button" class="btn-outline">Cancel</button>
+          </div>
+        </form>
+      </div>
+      
+      <!-- Security Settings -->
+      <div class="settings-section" id="securitySettings">
+        <h3>Password</h3>
+        <form>
+          <div class="form-group">
+            <label for="currentPassword">Current Password</label>
+            <input type="password" id="currentPassword" class="form-control">
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="newPassword">New Password</label>
+              <input type="password" id="newPassword" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="confirmPassword">Confirm New Password</label>
+              <input type="password" id="confirmPassword" class="form-control">
+            </div>
+          </div>
+          
+          <div style="margin-top: 1rem;">
+            <button type="submit" class="btn">Update Password</button>
+          </div>
+        </form>
+        
+        <div class="security-devices">
+          <h3 style="margin-top: 2rem;">Active Devices</h3>
+          <p style="color: #777; margin-bottom: 1rem;">Manage devices that are logged in to your account</p>
+          
+          <div class="device-card">
+            <div class="device-icon">
+              <i class="bi bi-laptop"></i>
+            </div>
+            <div class="device-info">
+              <h4>MacBook Pro</h4>
+              <p>Last active: 2 hours ago • New York, USA</p>
+            </div>
+            <div class="device-actions">
+              <button class="btn-outline" style="padding: 0.3rem 0.8rem;">Sign Out</button>
+            </div>
+          </div>
+          
+          <div class="device-card">
+            <div class="device-icon">
+              <i class="bi bi-phone"></i>
+            </div>
+            <div class="device-info">
+              <h4>iPhone 13</h4>
+              <p>Last active: 1 day ago • Chicago, USA</p>
+            </div>
+            <div class="device-actions">
+              <button class="btn-outline" style="padding: 0.3rem 0.8rem;">Sign Out</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="danger-zone">
+          <h3>Two-Factor Authentication</h3>
+          <p>Add an extra layer of security to your account</p>
+          <button class="btn-outline">Enable 2FA</button>
+        </div>
+      </div>
+      
+      <!-- Notification Settings -->
+      <div class="settings-section" id="notificationSettings">
+        <h3>Notification Preferences</h3>
+        <p style="color: #777; margin-bottom: 1.5rem;">Choose how you receive notifications from TravelPack</p>
+        
+        <div class="notification-prefs">
+          <div class="pref-item">
+            <div class="pref-info">
+              <h4>Booking Confirmations</h4>
+              <p>Receive confirmations when you book a trip</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+          
+          <div class="pref-item">
+            <div class="pref-info">
+              <h4>Payment Receipts</h4>
+              <p>Get receipts for payments and refunds</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+          
+          <div class="pref-item">
+            <div class="pref-info">
+              <h4>Travel Alerts</h4>
+              <p>Important updates about your upcoming trips</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+          
+          <div class="pref-item">
+            <div class="pref-info">
+              <h4>Special Offers</h4>
+              <p>Exclusive deals and promotions</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox">
+              <span class="slider"></span>
+            </label>
+          </div>
+          
+          <div class="pref-item">
+            <div class="pref-info">
+              <h4>Newsletter</h4>
+              <p>Monthly travel inspiration and tips</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+        
+        <div style="margin-top: 2rem;">
+          <h3>Notification Methods</h3>
+          <div class="form-group" style="margin-top: 1rem;">
+            <label style="display: flex; align-items: center; gap: 1rem;">
+              <input type="checkbox" checked style="transform: scale(1.2);">
+              <span>Email Notifications</span>
+            </label>
+          </div>
+          
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 1rem;">
+              <input type="checkbox" checked style="transform: scale(1.2);">
+              <span>Push Notifications</span>
+            </label>
+          </div>
+          
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 1rem;">
+              <input type="checkbox" style="transform: scale(1.2);">
+              <span>SMS Notifications</span>
+            </label>
+          </div>
+        </div>
+        
+        <div style="margin-top: 2rem;">
+          <button type="button" class="btn">Save Preferences</button>
+        </div>
+      </div>
+      
+      <!-- Privacy Settings -->
+      <div class="settings-section" id="privacySettings">
+        <h3>Privacy Settings</h3>
+        <p style="color: #777; margin-bottom: 1.5rem;">Control how your information is shared and displayed</p>
+        
+        <div class="form-group">
+          <label style="display: flex; align-items: center; gap: 1rem;">
+            <input type="checkbox" checked style="transform: scale(1.2);">
+            <span>Show my profile in search results</span>
+          </label>
+        </div>
+        
+        <div class="form-group">
+          <label style="display: flex; align-items: center; gap: 1rem;">
+            <input type="checkbox" style="transform: scale(1.2);">
+            <span>Allow others to see my wishlist</span>
+          </label>
+        </div>
+        
+        <div class="form-group">
+          <label style="display: flex; align-items: center; gap: 1rem;">
+            <input type="checkbox" checked style="transform: scale(1.2);">
+            <span>Allow trip reviews to be public</span>
+          </label>
+        </div>
+        
+        <div class="form-group">
+          <label style="display: flex; align-items: center; gap: 1rem;">
+            <input type="checkbox" checked style="transform: scale(1.2);">
+            <span>Receive partner offers</span>
+          </label>
+        </div>
+        
+        <div style="margin-top: 2rem;">
+          <h3>Data Sharing</h3>
+          <p style="color: #777; margin-bottom: 1rem;">Help improve TravelPack by sharing anonymous usage data</p>
+          <label class="switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+          <span style="margin-left: 1rem;">Share usage data</span>
+        </div>
+        
+        <div style="margin-top: 2rem;">
+          <button type="button" class="btn">Save Privacy Settings</button>
+        </div>
+      </div>
+      
+      <!-- Payment Settings -->
+      <div class="settings-section" id="paymentSettings">
+        <h3>Payment Methods</h3>
+        <p style="color: #777; margin-bottom: 1.5rem;">Manage your saved payment options</p>
+        
+        <div class="payment-method">
+          <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; border: 1px solid #eee; border-radius: 5px; margin-bottom: 1rem;">
+            <i class="bi bi-credit-card" style="font-size: 1.5rem;"></i>
+            <div style="flex: 1;">
+              <h4>Visa •••• 4242</h4>
+              <p style="color: #777;">Expires 04/2025</p>
+            </div>
+            <button class="btn-outline" style="padding: 0.3rem 0.8rem;">Edit</button>
+            <button class="btn-outline" style="padding: 0.3rem 0.8rem; color: var(--danger); border-color: var(--danger);">Remove</button>
+          </div>
+          
+          <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; border: 1px solid #eee; border-radius: 5px;">
+            <i class="bi bi-paypal" style="font-size: 1.5rem; color: #003087;"></i>
+            <div style="flex: 1;">
+              <h4>PayPal</h4>
+              <p style="color: #777;">sarah.johnson@example.com</p>
+            </div>
+            <button class="btn-outline" style="padding: 0.3rem 0.8rem;">Edit</button>
+            <button class="btn-outline" style="padding: 0.3rem 0.8rem; color: var(--danger); border-color: var(--danger);">Remove</button>
+          </div>
+        </div>
+        
+        <button class="btn" style="margin-top: 1.5rem;">
+          <i class="bi bi-plus"></i> Add Payment Method
+        </button>
+        
+        <div style="margin-top: 3rem;">
+          <h3>Billing Address</h3>
+          <form style="margin-top: 1rem;">
+            <div class="form-group">
+              <label for="billingAddress">Address</label>
+              <input type="text" id="billingAddress" class="form-control" value="123 Main Street">
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="billingCity">City</label>
+                <input type="text" id="billingCity" class="form-control" value="New York">
+              </div>
+              <div class="form-group">
+                <label for="billingState">State</label>
+                <input type="text" id="billingState" class="form-control" value="NY">
+              </div>
+              <div class="form-group">
+                <label for="billingZip">ZIP Code</label>
+                <input type="text" id="billingZip" class="form-control" value="10001">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="billingCountry">Country</label>
+              <select id="billingCountry" class="form-control">
+                <option>United States</option>
+                <option>Canada</option>
+                <option>United Kingdom</option>
+                <option>Australia</option>
+              </select>
+            </div>
+            
+            <div style="margin-top: 1.5rem;">
+              <button type="submit" class="btn">Save Address</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <!-- Danger Zone -->
+      <div class="danger-zone" style="margin-top: 3rem;">
+        <h3>Danger Zone</h3>
+        <p>These actions are irreversible. Please proceed with caution.</p>
+        
+        <div style="margin-top: 1.5rem;">
+          <button class="btn-outline" style="color: var(--danger); border-color: var(--danger);">
+            <i class="bi bi-download"></i> Export My Data
+          </button>
+          
+          <button class="btn-outline" style="color: var(--danger); border-color: var(--danger); margin-left: 1rem;">
+            <i class="bi bi-trash"></i> Delete Account
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Show settings section
+    function showSettingsSection(sectionId) {
+      // Hide all sections
+      document.querySelectorAll('.settings-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      
+      // Deactivate all tabs
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      
+      // Show selected section
+      document.getElementById(sectionId + 'Settings').classList.add('active');
+      
+      // Activate clicked tab
+      event.currentTarget.classList.add('active');
+    }
+    
+    // Form submission handlers
+    document.querySelectorAll('form').forEach(form => {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Settings saved successfully!');
+      });
+    });
+    
+    // Delete account confirmation
+    document.querySelector('.btn-outline .bi-trash').closest('button').addEventListener('click', function() {
+      if (confirm('Are you sure you want to delete your account? This cannot be undone.')) {
+        alert('Account deletion initiated. A confirmation email has been sent.');
+      }
+    });
+    
+    // Export data handler
+    document.querySelector('.btn-outline .bi-download').closest('button').addEventListener('click', function() {
+      alert('Preparing your data export. You will receive an email with download instructions.');
+    });
+  </script>
+</body>
+</html>

@@ -1,10 +1,10 @@
 
-
+//D:\Project\TravelPack\web\assets\js\sign-in.js
 async function signIn() {
-    console.log("ok");
+//    console.log("ok login js");
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    const email = document.getElementById("email2").value;
+    const password = document.getElementById("password2").value;
 
 //    console.log(email);
 //    console.log(password);
@@ -18,7 +18,7 @@ async function signIn() {
     const userJson = JSON.stringify(user);
 
     const response = await fetch(
-            "signin",
+            "SignIn",
             {
                 method: "POST",
                 header: {
@@ -38,11 +38,11 @@ async function signIn() {
             window.location  = "verify-account.html"
         }else{
             console.log(json.message);
-            document.getElementById("message").innerHTML = json.message;
+            document.getElementById("error-message").innerHTML = json.message;
         }
         
     }else{
-            document.getElementById("message").innerHTML="Registration faild. Please try again";
+            document.getElementById("error-message").innerHTML="Registration faild. Please try again";
         
     }
     
